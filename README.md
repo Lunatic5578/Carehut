@@ -15,4 +15,4 @@ Carehut is a demo website created solely for showcasing and learning skills rela
 <br/>
 [NOTE: If the services' pages fails to show requested data then kindly refresh the page so that the API can fetch the data again.]
 <br/>
-[NOTE: The API key used in this project is strictly restricted to the original domain and may not work if anyone tries to plagiarize it on their own system.]
+[NOTE: The API key used in this project is strictly restricted to the original domain and may not work if anyone tries to plagiarize/run it on their own system/server.]

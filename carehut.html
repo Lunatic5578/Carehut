@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Care Hut | Home</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/services.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" /></head>
+</head>
+
+
+
+<body>
+  <div class="error">
+    <p>Error!<br>Can't display due to low screen resolution.</p>
+  </div>
+  <div class="main">
+    <nav id="navbar">
+        <ul class="nav-bar">
+          <li class='logo'><a href='#'><img src='./images/carehutlogo.jpg'/></a></li>
+          <input type='checkbox' id='check' />
+          <span class="menu">
+            <li class="item"><a href="#home">About Us</a></li>
+            <li class="item"><a href="#services-container">Services</a></li>
+            <!-- <li class="item"><a href="#review-container">Reviews</a></li> -->
+            <li class="item1"><a href="#donate-container">Donate</a></li>
+            <li class="item"><a href="#contact">Contact us</a></li>
+            <label for="check" class="close-menu"><i class="fas fa-times" style="font-size: 2rem;"></i></label>
+          </span>
+          <label for="check" class="open-menu"><i class="fas fa-bars" style="font-size: 2rem;"></i></label>
+        </ul>
+    </nav>
+    
+
+    <section id="home" data-aos="fade-in">
+        <div class="intro">
+            <h1 class="h-Primary"> Care Hut </h1>
+            <div id="description">
+                <p>Pets need care and attention to keep them healthy, happy, and safe. They need healthy food; clean, fresh
+                water; and a comfortable place to sleep. Most pets also require regular exercise to stay fit. It is
+                important for pet owners to fulfill the needs of neccessity of their pets and so we will do our best to
+                meet your pets demand, it is our job to fulfill all your pet's needs as per your neccessity.</p>
+            </div>
+        </div>
+        <div class="home-img">
+            <img src="./backgrounds/homebg2.jpg">
+        </div>
+        
+    </section>
+    
+    <section id="quote" data-aos="fade-up">
+        <img src="./images/slide2.jpg" alt="">
+    </section>
+
+    
+    <section id="services-container" data-aos="fade-up" >
+      <div class="col-sm-7 mx-auto">
+          <header class="section-header text-center">
+            <span class="h1 d-block">
+            </span>
+            <h2>Services</h2>
+          </header>
+        </div>
+        <div id="flex-container" class="testimonials" >
+          <div id="left-zone">
+            <ul class="list">
+              <li class="item">
+                <input type="radio" id="radio_testimonial-1" name="basic_carousel" checked="checked" />
+                <label class="label_testimonial-1" for="radio_testimonial-1">Adoption</label>
+                <div class="content-test content_testimonial-1">
+                  <span class="picto"></span>
+                  <h1>Adoption</h1>
+                  <p>A house isn't a house without a pet by your side.<br>Adopt a friend today.</p>
+                  <a class="testimonialFrom" href="adoption.html">More</a>
+                </div>
+              </li>
+              <li class="item">
+                <input type="radio" id="radio_testimonial-2" name="basic_carousel" />
+                <label class="label_testimonial-2" for="radio_testimonial-2">Veterinarians</label>
+                <div class="content-test content_testimonial-2">
+                  <span class="picto"></span>
+                  <h1>Veterinarians</h1>
+                  <p>Need a professional Veterinary Consultation for your pet?<br>Check out the best veterinarians near your location.</p>
+                  <a class="testimonialFrom" href="vet.html">More</a>
+                  <br>
+                </div>
+              </li>
+              <li class="item">
+                <input type="radio" id="radio_testimonial-3" name="basic_carousel" />
+                <label class="label_testimonial-3" for="radio_testimonial-3">Pet-Shops</label>
+                <div class="content-test content_testimonial-3">
+                  <span class="picto"></span>
+                  <h1>Pet-Shops</h1>
+                  <p>From food and medicines to accessories and toys, here is a list of shops that has all the neccessary product for your pet.</p>
+                  <a class="testimonialFrom" href="shop.html">More</a>
+                </div>
+              </li>
+              <li class="item">
+                <input type="radio" id="radio_testimonial-4" name="basic_carousel" />
+                <label class="label_testimonial-4" for="radio_testimonial-4">Groomers</label>
+                <div class="content-test content_testimonial-4">
+                  <span class="picto"></span>
+                  <h1>Groomers</h1>
+                  <p>Need help from someone to groom your pet?<br>Check out these groomers near your location.</p>
+                  <a class="testimonialFrom" href="groomer.html">More</a>
+                  <br>
+                </div>
+              </li>
+              <li class="item">
+                  <input type="radio" id="radio_testimonial-5" name="basic_carousel" />
+                  <label class="label_testimonial-5" for="radio_testimonial-5">Pet-Keeping</label>
+                  <div class="content-test content_testimonial-5">
+                    <span class="picto"></span>
+                    <h1>Pet-Keeping</h1>
+                    <p>Need a second home for pet to stay while you enjoy your vacation?<br>Check out these pet-keeping centres near you.</p>
+                    <a class="testimonialFrom" href="pkeeping.html">More</a>
+                  </div>
+              </li>
+              <li class="item">
+                  <input type="radio" id="radio_testimonial-6" name="basic_carousel" />
+                  <label class="label_testimonial-6" for="radio_testimonial-6">Animal Support</label>
+                  <div class="content-test content_testimonial-6">
+                    <span class="picto"></span>
+                    <h1>Animal Support</h1>
+                    <p>Know an animal in need but don’t know who to turn to for help?<br>Contact these rescue teams for support.</p>
+                    <a class="testimonialFrom" href="support.html">More</a>
+                  </div>
+              </li>
+            </ul>
+          </div>
+          <div id="right-zone">
+          </div>
+        </div>
+      </body>
+      </section>
+
+    <!-- <section id="review-container" data-aos="fade-up">
+
+        <h1>Reviews from some of our customers</h1>
+        <div id="box">
+            <div class="box">
+                <div class="top">
+                    <img src="images/blankprofile.webp" alt="person 1">
+                    <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                </div>
+                <div class="bottom">
+                    <p>This is one of the best pets welfare website I have ever came across. Great job from Care-Hut team.</p>
+                </div>
+            </div>
+            <div class="box">
+                <div class="top">
+                    <img src="images/blankprofile.webp" alt="person 2">
+                    <p>&#9733;&#9733;&#9733;&#9733;</p>
+                </div>
+                <div class="bottom">
+                    <p>Excellent work from the team ;genuine services, and well maintained.</p>
+                </div>
+            </div>
+            <div class="box">
+                <div class="top">
+                    <img src="images/blankprofile.webp" alt="person 2">
+                    <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                </div>
+                <div class="bottom">
+                    <p>Good website, it helps me a lot to take care of my pet.</p>
+                </div>
+            </div>
+        </div>
+        <div class="btn">
+            <button class="button">
+                Review us
+            </button>
+        </div>
+
+    </section> -->
+    
+    <section id="contact" data-aos="fade-up">
+      <h1 class="h-primary center">Contact Us</h1>
+      <div id="contact-box">
+          <form action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="e11c5d89-f2ae-492e-b1f4-5d76b4371d50">
+              <div class="form-group">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name" id="name" placeholder="Enter your name" required>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email: </label>
+                  <input type="email" name="name" id="email" placeholder="Enter your email" required>
+              </div>
+              <div class="form-group">
+                  <label for="message">Message: </label>
+                  <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter your message/queries" required></textarea>
+              </div>
+              <div class="btn">
+                <input class="submit" type="submit">
+                <input class="reset" type="reset" value="Reset">
+              </div>
+          </form>
+      </div>
+      <script src="form.js"></script>
+  </section>
+
+
+    <footer id="conc">
+        This is a demo website created solely for demonstration purpose.<br>
+        Copyright &copy; www.carehut.com. All rights reserved!<br>
+    </footer>
+  </div>
+   <!-- Start of REVE Chat Script-->
+ <script type='text/javascript'>
+  window.$_REVECHAT_API || (function(d, w) { var r = $_REVECHAT_API = function(c) {r._.push(c);}; w.__revechat_account='7433589';w.__revechat_version=2;
+    r._= []; var rc = d.createElement('script'); rc.type = 'text/javascript'; rc.async = true; rc.setAttribute('charset', 'utf-8');
+    rc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'static.revechat.com/widget/scripts/new-livechat.js?'+new Date().getTime();
+    var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(rc, s);
+  })(document, window);
+ </script>
+ <!-- End of REVE Chat Script -->
+
+<!-- <script src="//code.tidio.co/itffkkowap9rrttiifofio6jukxvkvwx.js" async></script> -->
+
+  
+    <script src="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1500,
+        once: true,
+      });
+    </script>
+    <script type="application/x-javascript" src="../javascripts/jquery-3.6.3.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <script src="javascripts/services.js"></script>
+    <script src="javascripts/navbar.js"></script>
+    
+</body>
+
+</html>

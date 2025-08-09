@@ -1,156 +1,201 @@
-function initMap() {}
-document.addEventListener("DOMContentLoaded", () => {
-  // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-  // var mapOptions = {
-  //   zoom: 4,
-  //   center: myLatlng
-  // }
-  // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+// Debug flag - set to false for production
+const DEBUG_MODE = true;
 
-  // var marker = new google.maps.Marker({
-  //     position: myLatlng,
-  //     title:"Hello World!"
-  // });
+// Initialize the map
+async function initMap() {
+  logDebug("initMap() started");
 
-  // // To add the marker to the map, call setMap();
-  // marker.setMap(map);
+  try {
+    verifyGeolocationSupport();
 
-  // initMap();
-  // now it IS a function and it is in global
+    const { latitude: lat, longitude: lng } = await getUserLocation();
+    logDebug(`User location: ${lat}, ${lng}`);
 
-  let tabledata="";
-  
-    
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
+    const map = createMap(lat, lng);
+    const { Place, AdvancedMarkerElement } = await loadGoogleLibraries();
+
+    const places = await fetchAdoptionCenters(Place, lat, lng);
+
+    renderResults(places, map, AdvancedMarkerElement);
+    placeUserMarker(map, lat, lng, AdvancedMarkerElement);
+
+  } catch (error) {
+    handleMapError(error);
+  }
+}
+
+/* ------------------------------
+   Helper Functions
+------------------------------ */
+
+function logDebug(message) {
+  if (DEBUG_MODE) console.log(`[DEBUG] ${message}`);
+}
+
+function verifyGeolocationSupport() {
+  if (!navigator.geolocation) {
+    throw new Error("Geolocation not supported by your browser");
+  }
+  logDebug("Geolocation supported");
+}
+
+async function getUserLocation(timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("Geolocation request timed out")), timeout);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        clearTimeout(timer);
+        resolve(position.coords);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      },
+      { enableHighAccuracy: true }
+    );
+  });
+}
+
+function createMap(lat, lng) {
+  const mapElement = document.getElementById("map");
+  if (!mapElement) throw new Error("Map container not found");
+
+  return new google.maps.Map(mapElement, {
+    center: { lat, lng },
+    zoom: 13,
+    mapId: "PET_ADOPTION_MAP",
+    streetViewControl: false,
+    fullscreenControl: false
+    // Removed styles to avoid conflict with mapId
+  });
+}
+
+async function loadGoogleLibraries() {
+  try {
+    const [placesLib, markerLib] = await Promise.all([
+      google.maps.importLibrary("places"),
+      google.maps.importLibrary("marker")
+    ]);
+    return {
+      Place: placesLib.Place,
+      AdvancedMarkerElement: markerLib.AdvancedMarkerElement
+    };
+  } catch (error) {
+    throw new Error("Failed to load required Google Maps libraries");
+  }
+}
+
+async function fetchAdoptionCenters(Place, lat, lng) {
+  const request = {
+    textQuery: "animal support center",
+    locationBias: { center: { lat, lng }, radius: 5000 },
+    fields: [
+      "displayName",
+      "formattedAddress",
+      "location",
+      "rating",
+      "internationalPhoneNumber"
+    ],
+    maxResultCount: 10
+  };
+
+  const { places } = await Place.searchByText(request);
+
+  if (!places || places.length === 0) {
+    throw new Error("No pet support centers found in your area. Try expanding your search.");
   }
 
-  // const image = {
-  //   url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-  //   // This marker is 20 pixels wide by 32 pixels high.
-  //   size: new google.maps.Size(25, 37),
-  //   // The origin for this image is (0, 0).
-  //   origin: new google.maps.Point(0, 0),
-  //   // The anchor for this image is the base of the flagpole at (0, 32).
-  //   anchor: new google.maps.Point(0, 32),
-  // };
+  return places;
+}
 
-  function showPosition(position) {
-    lat = position.coords.latitude;
-    long = position.coords.longitude;
-    
-    var map;
-    var service;
-    var infowindow;
-    console.log(lat, long);
+function renderResults(places, map, AdvancedMarkerElement) {
+  const infoWindow = new google.maps.InfoWindow();
+  const tableBody = document.querySelector("#table_body");
+  tableBody.innerHTML = "";
 
-    //var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-
-    function createMarker(place) {
-      if (!place.geometry || !place.geometry.location) {console.log("error"); return; }
-    
-      const marker = new google.maps.Marker({
+  places.forEach(place => {
+    if (place.location) {
+      const marker = new AdvancedMarkerElement({
         map,
-        position: place.geometry.location,
-        //icon:image
+        position: place.location,
+        title: place.displayName
       });
-    
-      google.maps.event.addListener(marker, "click", () => {
-        infowindow.setContent(place.name || "");
-        infowindow.open(map);
+
+      marker.addListener("click", () => {
+        infoWindow.setContent(buildInfoWindowContent(place));
+        infoWindow.open(map, marker);
       });
     }
+    tableBody.appendChild(createTableRow(place));
+  });
+}
 
-    function initialize() {
-      var locat = new google.maps.LatLng(lat, long);
+function buildInfoWindowContent(place) {
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.displayName + ' ' + place.formattedAddress)}`;
+  return `
+    <div class="map-info-window">
+      <h3>${place.displayName}</h3>
+      <p>${place.formattedAddress}</p>
+      ${place.rating ? `<p><i class="fas fa-star"></i> ${place.rating}/5</p>` : ""}
+      ${place.internationalPhoneNumber ? `<p><i class="fas fa-phone"></i> ${place.internationalPhoneNumber}</p>` : ""}
+      <div class="links">
+        <a href="${mapLink}" target="_blank">
+          <i class="fas fa-map-marker-alt"></i> View on Map
+        </a>
+      </div>
+    </div>
+  `;
+}
 
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: locat,
-        zoom: 13,
-      });
-      
-      var request = {
-        location: locat,
-        radius: 1000,
-        query: ['Animal Support'],
-        // type:'adoption'
-      };
+function createTableRow(place) {
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.displayName + ' ' + place.formattedAddress)}`;
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${place.displayName}</td>
+    <td>${place.formattedAddress}</td>
+    <td>${place.rating ? `${place.rating}/5` : "Unrated"}</td>
+    <td class="links">
+      <a href="${mapLink}" target="_blank">
+        <i class="fas fa-map-marked-alt"></i> Map
+      </a>
+    </td>
+  `;
+  return row;
+}
 
-      
+function placeUserMarker(map, lat, lng, AdvancedMarkerElement) {
+  const userPin = document.createElement("div");
+  userPin.className = "user-location-pin";
+  userPin.innerHTML = `<div class="pin-circle"></div><div class="pin-pulse"></div>`;
 
-      service = new google.maps.places.PlacesService(map);
-      service.textSearch(request, callback);
+  new AdvancedMarkerElement({
+    position: { lat, lng },
+    map,
+    title: "Your Location",
+    content: userPin
+  });
+}
 
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          
-          for (var i = 0; i < results.length-10; i++) {
-            var place = results[i];
-            createMarker(results[i]);
-            console.log(place);
-            console.log(place.name);
-            console.log(place.formatted_address);
-            if(place.rating<=3)
-            {
-              console.log("Unrated");
-            }
-            else
-            {
-              console.log(place.rating);
-            }
-            tabledata+=`<tr>
-                <td>${place.name}</td>
-                <td>${place.formatted_address}</td>
-                <td>${place.rating}</td>
-                <td><a href="https://maps.google.com/?q=${place.name}" target="_blank" rel="noopener noreferrer">Tap to view on map</a></td>`  
-                //
-                document.querySelector("#table_body").innerHTML=tabledata;
-                
-            // function geocode(){
-            //   var loc=place.formatted_address
-            //   axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
-            //     params:{
-            //       address:loc,
-            //       key:'AIzaSyANO6HdP-yB52q2s4pk6SvD1UYFJuleVCo'
-            //     }
-            //   }).then(function(response){
-            //     //console.log(response);
-            //     latit=(response.data.results[0].geometry.location.lat)
-            //     longit=(response.data.results[0].geometry.location.lng)
-                
-            //     console.log(latit,longit)
-                
-                
-                
-            //   })
-              
-            //    .catch(function(error){
-            //      console.log('error in geocoding');
-            //    })
-            // }
-            
-          
-            // geocode()
-          }
-          var marker = new google.maps.Marker({
-            position: locat,
-            scale:2,
-            // icon: iconBase + 'info_maps.png'
-          });
-          // To add the marker to the map, call setMap();
-          marker.setMap(map);
-          
-        }
-      }
-    }
-    initialize();
+function handleMapError(error) {
+  console.error("Map Error:", error);
+
+  document.querySelector("#table_body").innerHTML = `
+    <tr>
+      <td colspan="4" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i> ${error.message}
+      </td>
+    </tr>
+  `;
+
+  const mapElement = document.getElementById("map");
+  if (mapElement) {
+    mapElement.style.display = "none";
   }
+}
 
-
-  getLocation();
-  
-});
+/* ------------------------------
+   Init Trigger
+------------------------------ */
+window.initMap = initMap;
+logDebug("support.js loaded");

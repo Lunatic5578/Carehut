@@ -1,151 +1,316 @@
-*{
+/* Base Styles */
+* {
     margin: 0;
     padding: 0;
     text-transform: uppercase;
     font-weight: 200;
     word-spacing: 4px;
     letter-spacing: 2px;
+    box-sizing: border-box;
 }
 
-html{
+html {
     scroll-behavior: smooth;
 }
 
-:root{
+:root {
     --navbar-height: 59px;
+    --primary-color: rgb(91, 75, 54);
+    --secondary-color: rgb(125, 103, 74);
+    --accent-color: #4285F4;
 }
 
-.error{
+body {
+    font-family: 'Bree Serif', serif;
+    background-color: #f9f9f9;
+}
+
+/* Error Message */
+.error {
     display: none;
 }
 
-h1{
+/* Typography */
+h1, h2, h3 {
+    color: var(--primary-color);
+    font-family: 'Baloo Bhai', cursive;
+}
+
+h1 {
     text-align: center;
     font-size: 2rem;
     margin: 15px;
-    color: rgb(91, 75, 54);
 }
-h2{
+
+h2 {
     text-align: center;
-    margin-top: 25px;
+    margin: 25px 0 15px;
     font-weight: 700;
-    color: rgb(91, 75, 54);
+    font-size: 1.8rem;
 }
-#navbar{
+
+/* Navigation */
+#navbar {
     display: flex;
     align-items: center;
     position: sticky;
     top: 0px;
     justify-content: space-between;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 9%);
+    background-color: #f2f2f2;
+    padding: 10px 0;
+    z-index: 1000;
 }
-#navbar::before{
-    content: "";
-    background-color:#f2f2f2;
-    position: absolute;
-    top:0px;
-    left:0px;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-    opacity: 1;
-}
-#navbar img{
-    height: 95px;
-    width: 95px;
-    margin-top: 2px;
+
+#navbar img {
+    height: 75px;
+    width: 75px;
     margin-left: 1.2rem;
     border-radius: 50%;
+    object-fit: cover;
 }
-#navbar ul{
+
+#navbar ul {
     display: flex;
+    list-style: none;
 }
-#navbar ul li{ 
+
+#navbar ul li {
     display: flex;
     align-items: center;
     justify-content: center;
-    list-style: none;
     font-size: 1rem;
-    margin: 0 ;
 }
-#navbar ul li a{
-    font-size: 1.3rem;
-    color: rgb(125, 103, 74);
+
+#navbar ul li a {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
     display: block;
     margin-right: 1.4rem;
-    padding: 3px 22px;
+    padding: 5px 15px;
     border-radius: 20px;
     text-decoration: none;
-    transition: 0.5s;
-}
-#navbar ul li a:hover{
-    background-color: rgb(91, 75, 54);
-    color: rgb(255, 255, 255);
+    transition: all 0.3s ease;
 }
 
+#navbar ul li a:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
 
+#navbar ul li a i {
+    margin-right: 5px;
+}
 
-#home{
+/* Map Section */
+#home {
     display: flex;
     flex-direction: column;
-    padding:3px 100px;
+    padding: 20px;
     justify-content: center;
     align-items: center;
 }
-/* #home::before{ 
-    content: "";
-    position: fixed;
-    background: url('../images/adoption.jpeg') no-repeat center bottom/contain;
-    height: 105%;
-    top:0px;
-    left:0px;
+
+#map {
+    height: 450px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+}
+
+/* Table Styles */
+.table-responsive {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.table {
     width: 100%;
-    z-index: -1;
-    opacity:0.4;
-} */
-
-.table{
-    margin: 50px 0;
-    width: 60%;
+    margin: 30px 0;
+    border-collapse: collapse;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-
-
-
-footer{
-    line-height: normal;
-    word-spacing: normal;
-    letter-spacing: normal;
-    text-transform: none;
-    font-weight: 600;
-    background: rgb(91, 75, 54);
+.table th {
+    background-color: #343a40;
     color: white;
-    padding: 9px 20px;
+    padding: 12px;
+    text-align: left;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s;
+    margin-right: 10px;
+}
+
+.table a:hover {
+    color: #2a6496;
+    text-decoration: underline;
+}
+
+.table a i {
+    margin-right: 5px;
+}
+
+/* Messages */
+.loading-message, .error-message {
     text-align: center;
+    padding: 30px;
+    font-size: 1.2rem;
 }
 
-@media(width<=400px)
-{
-    .table{
-        margin: 30px 0;
-        width: 60%;
+.loading-message {
+    color: #17a2b8;
+}
+
+.error-message {
+    color: #dc3545;
+}
+
+/* Map Elements */
+.user-location-pin {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.pin-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.pin-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    70% { transform: scale(3); opacity: 0; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+.map-info-window {
+    max-width: 250px;
+    font-family: 'Bree Serif', serif;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.map-info-window h3 {
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.map-info-window p {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.map-info-window a {
+    color: var(--accent-color);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.map-info-window a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    margin-top: 40px;
+    text-transform: none;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #navbar {
+        flex-direction: column;
+        padding: 10px;
     }
-    .table th{
-        font-size: 0.7rem;
+    
+    #navbar img {
+        margin: 0 auto 10px;
+    }
+    
+    #map {
+        height: 350px;
+    }
+    
+    .table th, .table td {
+        padding: 8px;
+        font-size: 0.9rem;
     }
 }
 
-@media(width<=360px)
-{
-    .main{
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    #map {
+        height: 300px;
+    }
+    
+    .table th {
+        font-size: 0.8rem;
+    }
+    
+    .table a {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 360px) {
+    .main {
         display: none;
     }
-    .error{
+    
+    .error {
         display: block;
         margin: 50px;
         text-align: center;
     }
-    .error p{
+    
+    .error p {
         font-weight: 900;
+        font-size: 1.2rem;
     }
 }

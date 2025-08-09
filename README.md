@@ -18,4 +18,4 @@ Carehut is a demo website created solely for showcasing and learning skills rela
 [NOTE: The API key used in this project is strictly restricted to the original domain and may not work if anyone tries to plagiarize/run it on their own domain/server.]
 <br/>
 <br/>
-<a href="">Click here to view the website.</a>
+<a href="https://lunatic5578.github.io/Carehut/carehut.html">Click here to view the website.</a>
